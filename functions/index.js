@@ -2,12 +2,12 @@
 
 const functions = require('firebase-functions'); // Cloud Functions for Firebase library
 const admin = require('firebase-admin'); // access to the realtime database
+admin.initializeApp(functions.config().firebase);
 const ctrl = require('./src/ctrl'); // control functions
 const DialogflowApp = require('actions-on-google').DialogflowApp; // Google Assistant helper library
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
   console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
   console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
-  admin.initializeApp(functions.config().firebase);
   if (request.body.result) {
     processV1Request(request, response);
   } else if (request.body.queryResult) {
