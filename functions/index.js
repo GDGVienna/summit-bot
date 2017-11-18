@@ -2,6 +2,7 @@
 
 const functions = require('firebase-functions'); // Cloud Functions for Firebase library
 const admin = require('firebase-admin'); // access to the realtime database
+const ctrl = require('./src/ctrl'); // control functions
 const DialogflowApp = require('actions-on-google').DialogflowApp; // Google Assistant helper library
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
   console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
@@ -37,7 +38,10 @@ function processV1Request (request, response) {
     },
     // asking for the current session
     'input.session.current': () => {
-        sendResponse('Current session: Tanya explaining Dialogflow');
+        admin.database().ref('/').once('value', (snapshot) => {
+            var db = snapshot.val();
+            ctrl.sendItems(db, sendResponse, null, true, db.text.labels.now);
+        });
     },
     // asking for the next break
     'input.break': () => {
