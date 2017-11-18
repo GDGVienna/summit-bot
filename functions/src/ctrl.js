@@ -221,6 +221,7 @@ function sendItems(db, sendResponse, type, running, label) {
         } else if (running === true) {
             info = db.text.info.noRunning;
         }
+        sendResponse(info);
     }
 }
 
