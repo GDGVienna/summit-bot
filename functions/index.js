@@ -56,6 +56,12 @@ function processV1Request (request, response) {
         sendResponse('I\'m having trouble, can you try that again?'); // Send simple response to user
       }
     },
+    'input.program': () => {
+      admin.database().ref('/').once('value', (snapshot) => {
+        var db = snapshot.val();
+        ctrl.sendProgram(app, db.program.items, "Program:");
+    });
+    },
     // Default handler for unknown or undefined actions
     'default': () => {
       // Use the Actions on Google lib to respond to Google requests; for other requests use JSON
