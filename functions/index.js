@@ -40,7 +40,7 @@ function processV1Request (request, response) {
     'input.session.current': () => {
         admin.database().ref('/').once('value', (snapshot) => {
             var db = snapshot.val();
-            ctrl.sendItems(db, sendResponse, null, true, db.text.labels.now);
+            ctrl.sendItems(app, db, sendResponse, null, true, db.text.labels.now);
         });
     },
     // asking for the next break
